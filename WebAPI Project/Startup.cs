@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAPI_Project.Data;
+using WebAPI_Project.Models;
 
 namespace WebAPI_Project
 {
@@ -36,9 +38,9 @@ namespace WebAPI_Project
             });
 
             services.AddDbContext<GeoMessageDbContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("GeoMessageDbContext")));
+            options.UseSqlServer(Configuration.GetConnectionString("GeoMessageDbContexyConnection")));
 
-            // TODO Add Identity
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<GeoMessageDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
