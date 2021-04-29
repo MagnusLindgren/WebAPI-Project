@@ -41,12 +41,13 @@ namespace WebAPI_Project.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GeoMessage>> PostGeoComment(GeoMessage geoMessage)
+        public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
         {
-          
+            var geoMessage = geoMessageDTO.ToModel();
             _context.GeoMessages.Add(geoMessage);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetGeoComment", new { id = geoMessage.id }, geoMessage);
+
+            return CreatedAtAction("GetGeoComment", new { id = geoMessage.Id }, geoMessageDTO);
         }
     }
 }
