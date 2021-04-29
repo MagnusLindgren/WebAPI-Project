@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -33,13 +34,15 @@ namespace WebAPI_Project.Controllers
 
             return Ok(geoTag.GeoMessDTO());
         }
-    
+        // GET api/Geomessage
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
         {       
             return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
         }
-        
+
+        //[Authorize]
+        // POST api/Geomessage
         [HttpPost]
         public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
         {
