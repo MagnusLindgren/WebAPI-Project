@@ -38,5 +38,20 @@ namespace WebAPI_Project.Controllers
        
             return await _context.GeoMessages.ToListAsync();
         }
+
+        [HttpPost]
+        public async Task<ActionResult<GeoMessage>> PostGeoComment(GeoMessage geoMessage)
+        {
+           
+          if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+             }
+
+
+            _context.GeoMessages.Add(geoMessage);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("Get", new { id = geoMessage.id });
+        }
     }
 }
