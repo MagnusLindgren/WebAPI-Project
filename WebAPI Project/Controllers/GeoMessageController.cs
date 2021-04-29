@@ -9,8 +9,9 @@ using WebAPI_Project.Models;
 
 namespace WebAPI_Project.Controllers
 {
-    [Route("api/v1/geo-comments")]
+   
     [ApiController]
+    [Route("api/[controller]")]
     public class GeoMessageController : ControllerBase
     {
         private readonly GeoMessageDbContext _context;
@@ -32,11 +33,20 @@ namespace WebAPI_Project.Controllers
 
             return geoTag.GeoMessDTO();
         }
-        //GET api/GeoMessage
+    
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
         {       
             return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<GeoMessage>> PostGeoComment(GeoMessage geoMessage)
+        {
+          
+            _context.GeoMessages.Add(geoMessage);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetGeoComment", new { id = geoMessage.id }, geoMessage);
         }
     }
 }
