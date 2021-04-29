@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using WebAPI_Project.Models;
 
 namespace WebAPI_Project.Controllers
 {
-    [Route("api/geo-comments")]
+    [Route("api/v1/geo-comments")]
     [ApiController]
     public class GeoMessageController : ControllerBase
     {
@@ -29,6 +30,13 @@ namespace WebAPI_Project.Controllers
             }
 
             return Ok(geoTag);
+        }
+        //GET api/GeoMessage
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<GeoMessage>>> Get()
+        {
+       
+            return await _context.GeoMessages.ToListAsync();
         }
     }
 }
