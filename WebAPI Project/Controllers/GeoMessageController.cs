@@ -46,7 +46,7 @@ namespace WebAPI_Project.Controllers
           
             _context.GeoMessages.Add(geoMessage);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetGeoComment", new { id = geoMessage.id });
+            return CreatedAtAction("GetGeoComment", new { id = geoMessage.id }, geoMessage);
         }
     }
 }
