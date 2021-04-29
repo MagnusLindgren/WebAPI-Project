@@ -5,13 +5,31 @@ using System.Threading.Tasks;
 
 namespace WebAPI_Project.Models
 {
-    public class GeoMessage
+    public class GeoMessage : GeoMessageDTO
     {
-     
-            public int id { get; set; }
-            public string message { get; set; }
-            public double longitude { get; set; }
-            public double latitude { get; set; }
-      
+        public int Id { get; set; }
     }
+    public class GeoMessageDTO
+    {    
+            public string Message { get; set; }
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
+
+        public GeoMessage ToModel()
+        {
+            return new GeoMessage
+            {
+                Message = this.Message,
+                Longitude = this.Longitude,
+                Latitude = this.Latitude,
+            };
+        }
+        public GeoMessageDTO GeoMessDTO()
+        {
+            return this;
+        }
+
+    }
+
+    
 }

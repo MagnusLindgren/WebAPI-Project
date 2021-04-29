@@ -19,8 +19,9 @@ namespace WebAPI_Project.Controllers
             _context = context;
         }
 
+        // GET api/Geomessage per id
         [HttpGet("{id}")]
-        public async Task<ActionResult<GeoMessage>> GetGeoComment(int id)
+        public async Task<ActionResult<GeoMessageDTO>> GetGeoComment(int id)
         {
             var geoTag = await _context.GeoMessages.FindAsync(id);
 
@@ -29,14 +30,13 @@ namespace WebAPI_Project.Controllers
                 return NotFound();
             }
 
-            return Ok(geoTag);
+            return geoTag.GeoMessDTO();
         }
         //GET api/GeoMessage
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<GeoMessage>>> Get()
-        {
-       
-            return await _context.GeoMessages.ToListAsync();
+        public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
+        {       
+            return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
         }
     }
 }
