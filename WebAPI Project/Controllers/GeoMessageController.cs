@@ -31,7 +31,7 @@ namespace WebAPI_Project.Controllers
                 return NotFound();
             }
 
-            return geoTag.GeoMessDTO();
+            return Ok(geoTag.GeoMessDTO());
         }
     
         [HttpGet]
@@ -39,7 +39,7 @@ namespace WebAPI_Project.Controllers
         {       
             return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
         }
-
+        
         [HttpPost]
         public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
         {

@@ -26,10 +26,12 @@ namespace WebAPI_Project.Models
         }
         public GeoMessageDTO GeoMessDTO()
         {
-            return this;
+            return new GeoMessageDTO
+            {
+                Message = this.Message,
+                Longitude = this.Longitude,
+                Latitude = this.Latitude,
+            };
         }
-
-    }
-
-    
+    }  
 }
