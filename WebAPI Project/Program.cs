@@ -26,9 +26,9 @@ namespace WebAPI_Project
                 try
                 {
                     var context = services.GetRequiredService<GeoMessageDbContext>();
-                    var userManage = services.GetRequiredService<UserManager<User>>();
+                    var userManager = services.GetRequiredService<UserManager<User>>();
 
-                    await context.Seed(userManage);
+                    await context.Seed(userManager);
                 }
                 catch (Exception ex)
                 {
