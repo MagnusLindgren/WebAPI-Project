@@ -12,7 +12,7 @@ namespace WebAPI_Project.Controllers
 {
    
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/geo-comments")]
     public class GeoMessageController : ControllerBase
     {
         private readonly GeoMessageDbContext _context;
@@ -21,7 +21,7 @@ namespace WebAPI_Project.Controllers
             _context = context;
         }
 
-        // GET api/Geomessage per id
+        // GET api/Geomessage/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<GeoMessageDTO>> GetGeoComment(int id)
         {

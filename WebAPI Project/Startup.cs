@@ -42,9 +42,9 @@ namespace WebAPI_Project
             options.UseSqlServer(Configuration.GetConnectionString("GeoMessageDbContexyConnection")));
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<GeoMessageDbContext>();
-
+            /*
             services.AddAuthentication("MyAuthScheme")
-                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("MyAuthScheme", null);
+                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("MyAuthScheme", null);*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
