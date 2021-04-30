@@ -35,16 +35,40 @@ namespace WebAPI_Project
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI_Project", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI_Project", Version = "v1" });
+            c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                  });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                                 {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "basic"
+                            }
+                        },
+                        new String[] { }
+                    }
+                 
+                });
             });
 
             services.AddDbContext<GeoMessageDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("GeoMessageDbContexyConnection")));
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<GeoMessageDbContext>();
-            /*
-            services.AddAuthentication("MyAuthScheme")
-                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("MyAuthScheme", null);*/
+
+            services.AddAuthentication("AuthenticationScheme")
+                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("AuthenticationScheme", null);
+    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
