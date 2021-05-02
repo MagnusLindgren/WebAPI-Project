@@ -18,18 +18,24 @@ namespace WebAPI_Project
     {
         private readonly UserManager<User> _userManager;
         public AuthenticationHandler(
+            UserManager<User> userManager,
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock,
-             UserManager<User> userManager
-            )
+            ISystemClock clock) 
             : base(options, logger, encoder, clock)
         {
              _userManager = userManager;
         }
+        protected override Task HandleChallengeAsync(AuthenticationProperties properties)
+        {
+            Response.Headers["WWW-Authenticate"] = "Basic";
+            return base.HandleChallengeAsync(properties);
+        }
+        
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+
             //implementerar basic Authentication för att identifiera vilken användare osm gör api-anropet.
             /// kollar header-fältet
             if (!Request.Headers.ContainsKey("Authorization"))
@@ -39,6 +45,7 @@ namespace WebAPI_Project
 
             User user;
             string password;
+
             try
             {
                 var authenticationHeader = AuthenticationHeaderValue.Parse(Request.Headers["Aruthorication"]);
@@ -49,17 +56,28 @@ namespace WebAPI_Project
 
                 user = await _userManager.FindByNameAsync(username);
 
+                if (_userManager.CheckPasswordAsync(user, password) == null)
+
+                {
+                    throw new ArgumentException("Invalid username or password");
+                }
             }
-            catch
+            catch (Exception ex) 
             {
-                return AuthenticateResult.Fail("Invalid Authorization Header");
+                return AuthenticateResult.Fail(ex.Message);
             }
 
-            var identity = new ClaimsIdentity(Scheme.Name);
+            var claims = new List<Claim>            
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Name, user.UserName),
+            };
+       
+            var identity = new ClaimsIdentity(claims, Scheme.Name);
             var principal = new ClaimsPrincipal(identity);
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
-            return AuthenticateResult.Success(ticket);
+                    return AuthenticateResult.Success(ticket);
          
         }
     }

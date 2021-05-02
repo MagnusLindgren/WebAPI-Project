@@ -23,12 +23,13 @@ namespace WebAPI_Project.Data
             await Database.EnsureDeletedAsync();
             await Database.EnsureCreatedAsync();
 
-            User testuser = new User()
+            User testUser = new User()
             {
+                UserName = "testUser",
                 FirstName = "Tester",
                 LastName = "Userson",               
             };
-            await userManager.CreateAsync(testuser);
+            await userManager.CreateAsync(testUser, "Passw0rd!");
 
             GeoMessage message = new GeoMessage()
             {

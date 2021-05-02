@@ -35,17 +35,20 @@ namespace WebAPI_Project
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI_Project", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo 
+            {
+                Title = "WebAPI_Project", 
+                Version = "v1" 
+            });
             c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     Scheme = "basic",
                     In = ParameterLocation.Header,
-                    Description = "Basic Authorization header using the Bearer scheme."
+                    Description = "Basic Authorization header."
                   });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement        {
                     {
                         new OpenApiSecurityScheme
                                  {
@@ -66,8 +69,8 @@ namespace WebAPI_Project
 
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<GeoMessageDbContext>();
 
-            services.AddAuthentication("AuthenticationScheme")
-                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("AuthenticationScheme", null);
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("BasicAuthentication", null);
     
         }
 
