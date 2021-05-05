@@ -37,8 +37,13 @@ namespace WebAPI_Project
                 c.SwaggerDoc("v1", new OpenApiInfo 
                 {
                     Title = "WebAPI_Project", 
-                    Version = "v1" 
+                    Version = "v1.0" 
                 });
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Title = "WebAPI_Project",
+                    Version = "v2.0"
+                }); 
 
                 c.IncludeXmlComments("Documentation.xml");
 
@@ -66,6 +71,19 @@ namespace WebAPI_Project
                 });
             });
 
+            services.AddApiVersioning(o =>
+            {
+                o.DefaultApiVersion = new ApiVersion(2, 0);
+                o.AssumeDefaultVersionWhenUnspecified = true;
+                o.ReportApiVersions = true;
+            });
+
+            services.AddVersionedApiExplorer(o =>
+            {
+                o.GroupNameFormat = "'v'VVV";
+                o.SubstituteApiVersionInUrl = true;
+            });
+
             services.AddDbContext<GeoMessageDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("GeoMessageDbContexyConnection")));
 
@@ -83,7 +101,11 @@ namespace WebAPI_Project
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI_Project v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI_Project v1.0");
+                    c.SwaggerEndpoint("/swagger/v2/swagger.json", "WebAPI_Project v2.0");
+                });              
             }
 
             app.UseHttpsRedirection();

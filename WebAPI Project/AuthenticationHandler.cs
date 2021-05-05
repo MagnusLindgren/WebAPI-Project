@@ -37,7 +37,7 @@ namespace WebAPI_Project
         {
 
             //implementerar basic Authentication för att identifiera vilken användare osm gör api-anropet.
-            /// kollar header-fältet
+            // kollar header-fältet
             if (!Request.Headers.ContainsKey("Authorization"))
                 return AuthenticateResult.Fail("Missing Authorization Header");
 

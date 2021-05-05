@@ -4,7 +4,7 @@
         <name>WebAPI Project</name>
     </assembly>
     <members>
-        <member name="M:WebAPI_Project.Controllers.GeoMessageController.GetGeoComment(System.Int32)">
+        <member name="M:WebAPI_Project.Controllers.V1.GeoMessageController.GetGeoComment(System.Int32)">
             <summary>
             Gets a specific comment based on id
             </summary>
