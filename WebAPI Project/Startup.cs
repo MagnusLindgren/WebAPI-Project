@@ -35,8 +35,6 @@ namespace WebAPI_Project
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-              
-
                 c.SwaggerDoc("v1", new OpenApiInfo 
                 {
                     Title = "WebAPI_Project", 
