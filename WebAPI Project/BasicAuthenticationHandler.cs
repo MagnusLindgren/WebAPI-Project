@@ -14,24 +14,21 @@ using WebAPI_Project.Models;
 
 namespace WebAPI_Project
 {
-    public class AuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly UserManager<User> _userManager;
-        public AuthenticationHandler(
-            UserManager<User> userManager,
+        public BasicAuthenticationHandler(
+           UserManager<User> userManager,
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock) 
+            ISystemClock clock)
+            
             : base(options, logger, encoder, clock)
         {
              _userManager = userManager;
         }
-        protected override Task HandleChallengeAsync(AuthenticationProperties properties)
-        {
-            Response.Headers["WWW-Authenticate"] = "Basic";
-            return base.HandleChallengeAsync(properties);
-        }
+      
         
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
@@ -48,7 +45,7 @@ namespace WebAPI_Project
 
             try
             {
-                var authenticationHeader = AuthenticationHeaderValue.Parse(Request.Headers["Aruthorication"]);
+                var authenticationHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
                 var credentialBytes = Convert.FromBase64String(authenticationHeader.Parameter);
                 var crendentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
                 var username = crendentials[0];
@@ -56,10 +53,12 @@ namespace WebAPI_Project
 
                 user = await _userManager.FindByNameAsync(username);
 
-                if (_userManager.CheckPasswordAsync(user, password) == null)
+                if (user == null ||
+                    password == null ||
+                    _userManager.CheckPasswordAsync(user, password) == null)
 
                 {
-                    throw new ArgumentException("Invalid username or password");
+                    AuthenticateResult.Fail("Invalid username or password");
                 }
             }
             catch (Exception ex) 
@@ -79,6 +78,12 @@ namespace WebAPI_Project
 
                     return AuthenticateResult.Success(ticket);
          
+        }
+        protected override Task HandleChallengeAsync(AuthenticationProperties properties)
+        {
+            Response.Headers["WWW-Authenticate"] = "Basic";
+
+            return Task.CompletedTask;
         }
     }
 }

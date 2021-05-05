@@ -17,6 +17,7 @@ namespace WebAPI_Project.Data
         }
 
         public DbSet<GeoMessage> GeoMessages { get; set; }
+        public DbSet<User> User { get; set; }
 
         public async Task Seed(UserManager<User> userManager)
         {
@@ -27,7 +28,7 @@ namespace WebAPI_Project.Data
             {
                 UserName = "testUser",
                 FirstName = "Tester",
-                LastName = "Userson",               
+                LastName = "Userson",
             };
             await userManager.CreateAsync(testUser, "Passw0rd!");
 

@@ -87,10 +87,11 @@ namespace WebAPI_Project
             services.AddDbContext<GeoMessageDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("GeoMessageDbContexyConnection")));
 
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<GeoMessageDbContext>();
+            services.AddIdentityCore<User>()
+                .AddEntityFrameworkStores<GeoMessageDbContext>();
 
             services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("BasicAuthentication", null);
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
     
         }
 
