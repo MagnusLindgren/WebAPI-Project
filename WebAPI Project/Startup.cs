@@ -31,23 +31,26 @@ namespace WebAPI_Project
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-            c.SwaggerDoc("v1", new OpenApiInfo 
-            {
-                Title = "WebAPI_Project", 
-                Version = "v1" 
-            });
-            c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                {
+                    Title = "WebAPI_Project", 
+                    Version = "v1" 
+                });
+
+                c.IncludeXmlComments("Documentation.xml");
+
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.Http,
                     Scheme = "basic",
                     In = ParameterLocation.Header,
                     Description = "Basic Authorization header."
-                  });
+                });
+
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement        {
                     {
                         new OpenApiSecurityScheme
@@ -59,8 +62,7 @@ namespace WebAPI_Project
                             }
                         },
                         new String[] { }
-                    }
-                 
+                    }                
                 });
             });
 

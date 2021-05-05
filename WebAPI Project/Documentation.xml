@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebAPI Project</name>
+    </assembly>
+    <members>
+        <member name="M:WebAPI_Project.Controllers.GeoMessageController.GetGeoComment(System.Int32)">
+            <summary>
+            Gets a specific comment based on id
+            </summary>
+            <param name="id">id represents wich comment to get</param>
+            <returns>Returns a JSON object with a specific comment</returns>
+        </member>
+    </members>
+</doc>
