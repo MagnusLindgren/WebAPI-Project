@@ -65,6 +65,11 @@ namespace WebAPI_Project.Controllers
                 return Ok(geoTag.GeoMessDTO());
             }
             // GET api/Geomessage
+            /// <summary>
+            /// Gets a list of geo-comments
+            /// </summary>
+            /// 
+            /// <returns>Returns a JSON object with a list of geo-comments</returns>
             [HttpGet]
             public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
             {       

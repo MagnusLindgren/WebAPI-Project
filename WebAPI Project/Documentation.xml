@@ -11,5 +11,12 @@
             <param name="id">id represents wich comment to get</param>
             <returns>Returns a JSON object with a specific comment</returns>
         </member>
+        <member name="M:WebAPI_Project.Controllers.V1.GeoMessageController.Get">
+            <summary>
+            Get list of geo-comments
+            </summary>
+            
+            <returns>Returns a JSON object with a list of geo-comments</returns>
+        </member>
     </members>
 </doc>
