@@ -34,8 +34,8 @@ namespace WebAPI_Project.Data
 
             GeoMessage message = new GeoMessage()
             {
-                Latitude = 123.2,
-                Longitude = 423.1,
+                Latitude = 57.69,
+                Longitude = 12.85,
                 Message = "This is a drill. Do not worry!"
             };
             await AddAsync(message);
