@@ -37,7 +37,7 @@ namespace WebAPI_Project
                 o.AddPolicy(name: AllowSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://127.0.0.1:5500");
+                        builder.AllowAnyOrigin();  //.WithOrigins("http://127.0.0.1:5500");
                     });
             });
 
