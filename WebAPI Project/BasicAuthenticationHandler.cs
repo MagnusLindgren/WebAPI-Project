@@ -28,21 +28,14 @@ namespace WebAPI_Project
         {
              _userManager = userManager;
         }
-      
-        
+            
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-
-            //implementerar basic Authentication för att identifiera vilken användare osm gör api-anropet.
-            // kollar header-fältet
-            if (!Request.Headers.ContainsKey("Authorization"))
+           if (!Request.Headers.ContainsKey("Authorization"))
                 return AuthenticateResult.Fail("Missing Authorization Header");
-
-
 
             User user;
             string password;
-
             try
             {
                 var authenticationHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
@@ -77,14 +70,14 @@ namespace WebAPI_Project
             var ticket = new AuthenticationTicket(principal, Scheme.Name);
 
                     return AuthenticateResult.Success(ticket);
-         
         }
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
             Response.Headers["WWW-Authenticate"] = "Basic";
 
-            return Task.CompletedTask;
+            return base.HandleChallengeAsync(properties);
         }
+
     }
 }
 
