@@ -7,6 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI_Project.Data;
 using WebAPI_Project.Models;
+using WebAPI_Project.Models.V1;
+using WebAPI_Project.Models.v2;
+using GeoMessageDTO = WebAPI_Project.Models.V1.GeoMessageDTO;
+
+
 
 namespace WebAPI_Project.Controllers
 {
@@ -26,9 +31,9 @@ namespace WebAPI_Project.Controllers
             }
 
             [HttpGet]
-            public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
+            public async Task<ActionResult<IEnumerable<Models.v2.GeoMessageDTO>>> Get()
             {
-                return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
+                return await _context.GeoMessage.Select(m => m.GeoMessDTO()).ToListAsync();
             }
         }
     }
