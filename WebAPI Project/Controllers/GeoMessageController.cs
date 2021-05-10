@@ -64,7 +64,7 @@ namespace WebAPI_Project.Controllers
 
                 if (geoTag == null)
                 {
-                    return NotFound();
+                    return NoContent();
                 }
 
                 return Ok(geoTag.GeoMessDTO());
@@ -81,7 +81,7 @@ namespace WebAPI_Project.Controllers
                 return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
             }
 
-            [Authorize]
+            //[Authorize]
             // POST api/Geomessage
             [HttpPost]
             public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)

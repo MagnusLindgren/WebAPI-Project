@@ -32,12 +32,16 @@ namespace WebAPI_Project
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddCors(o =>
             {
                 o.AddPolicy(name: AllowSpecificOrigins,
                     builder =>
                     {
-                        builder.AllowAnyOrigin();  //.WithOrigins("http://127.0.0.1:5500");
+                        builder.SetIsOriginAllowed(origin => true)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                     });
             });
 
@@ -124,6 +128,7 @@ namespace WebAPI_Project
             app.UseRouting();
 
             app.UseCors(AllowSpecificOrigins);
+
             app.UseAuthentication();
             app.UseAuthorization();
 
