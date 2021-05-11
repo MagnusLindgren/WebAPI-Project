@@ -5,15 +5,5 @@ using System.Threading.Tasks;
 
 namespace WebAPI_Project.Models
 {
-    public class Message : MessageDTO
-    {
-        public int Id { get; set; }
-    }
-    public class MessageDTO
-    {
-        public string Title { get; set; }
-        public string Body { get; set; }
-        public string Author { get; set; }
 
-    }
 }

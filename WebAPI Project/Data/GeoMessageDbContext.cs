@@ -20,7 +20,7 @@ namespace WebAPI_Project.Data
         }
 
         public DbSet<GeoMessage> GeoMessages { get; set; }
-        public DbSet<GeoMessageV2> GeoMessageV2 { get; set; }
+        //public DbSet<GeoMessageV2> GeoMessageV2 { get; set; }
         public DbSet<User> User { get; set; }
 
         public async Task Seed(UserManager<User> userManager)
@@ -28,7 +28,7 @@ namespace WebAPI_Project.Data
             await Database.EnsureDeletedAsync();
             await Database.EnsureCreatedAsync();
 
-            User testUser = new User()
+            User testUser = new User
             {
                 UserName = "testUser",
                 FirstName = "Tester",
@@ -36,7 +36,7 @@ namespace WebAPI_Project.Data
             };
             await userManager.CreateAsync(testUser, "Passw0rd!");
 
-            GeoMessage message = new GeoMessage()
+            var message = new GeoMessage
             {
                 Latitude = 57.69,
                 Longitude = 12.85,
@@ -44,9 +44,11 @@ namespace WebAPI_Project.Data
             };
             await AddAsync(message);
             
-            GeoMessageV2 messagev2 = new GeoMessageV2()
+            var messagev2 = new GeoMessage
             {
-                Message = new Message { Body = "hello", Title = "Welcome", Author = "testAuthor" },
+                Title = "Testtitle",
+                Author = "Test Author",
+                Body = "This is for testing V2",
                 Longitude = 51.69,
                 Latitude = 12.85
             };

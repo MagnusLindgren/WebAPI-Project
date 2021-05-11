@@ -8,20 +8,30 @@ namespace WebAPI_Project.Models
 {
     namespace V2
     {
-        public class GeoMessageV2 : GeoMessage
+        public class GetMessageDTO
         {
-            public new MessageDTO Message { get; set; }
+            public MessageDTO Message { get; set; }
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
         }
+        public class MessageDTO
+        {
+            public string Title { get; set; }
+            public string Body { get; set; }
+            public string Author { get; set; }
 
+        }
+        public class AddMessageDTO
+        {
+            public string Title { get; set; }
+            public string Body { get; set; }
+            public string Author { get; set; }
+        }
     }
 
     namespace V1
     {
-        public class GeoMessage : GeoMessageDTO
-        {
-            public int Id { get; set; }
-        }
-        public class GeoMessageDTO
+        public class GeoMessageDTO 
         {
             public string Message { get; set; }
             public double Longitude { get; set; }
@@ -45,7 +55,17 @@ namespace WebAPI_Project.Models
                     Latitude = this.Latitude,
                 };
             }
-
         }
+
     }
+        public class GeoMessage
+        {
+            public int Id { get; set; }
+            public string Title { get; set; }
+            public string Body { get; set; }
+            public string Author { get; set; }
+            public string Message { get; set; }
+            public double Longitude { get; set; }
+            public double Latitude { get; set; }
+        }    
 }

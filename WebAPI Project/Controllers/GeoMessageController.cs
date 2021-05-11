@@ -36,16 +36,23 @@ namespace WebAPI_Project.Controllers
             /// <param name="id">id represents wich comment to get</param>
             /// <returns>Returns a JSON object with a specific comment</returns>
             [HttpGet("{id}")]
-            public async Task<ActionResult<GeoMessageDTO>> GetGeoComment(int id)
+            public async Task<ActionResult<GetMessageDTO>> GetGeoComment(int id)
             {
-                var geoTagv1 = await _context.GeoMessages.FindAsync(id);
+                var geoTag = await _context.GeoMessages.FirstOrDefaultAsync(g => g.Id == id);
 
-                if (geoTagv1 == null)
+                if (geoTag == null)
                 {
                     return NoContent();
                 }
 
-                return Ok(geoTagv1.GeoMessDTO());
+                var geoMessageDto = new GetMessageDTO
+                {
+                    Message = new MessageDTO { Title = geoTag.Title, Body = geoTag.Body, Author = geoTag.Body },
+                    Latitude = geoTag.Latitude,
+                    Longitude = geoTag.Longitude
+                };
+
+                return Ok(geoMessageDto);
             }
         }
     }
@@ -70,16 +77,23 @@ namespace WebAPI_Project.Controllers
             /// <param name="id">id represents wich comment to get</param>
             /// <returns>Returns a JSON object with a specific comment</returns>
             [HttpGet("{id}")]
-            public async Task<ActionResult<Models.V1.GeoMessageDTO>> GetGeoComment(int id)
+            public async Task<ActionResult<GeoMessageDTO>> GetGeoComment(int id)
             {
-                var geoTag = await _context.GeoMessages.FindAsync(id);
+                var geoTag = await _context.GeoMessages.FirstOrDefaultAsync(g => g.Id == id);
 
                 if (geoTag == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(geoTag.GeoMessDTO());
+            var geoMessageDto = new GeoMessageDTO
+            {
+                Message = geoTag.Message,
+                Latitude = geoTag.Latitude,
+                Longitude = geoTag.Longitude
+            };
+
+                return Ok(geoMessageDto);
             }
             // GET api/Geomessage
             /// <summary>
@@ -87,16 +101,24 @@ namespace WebAPI_Project.Controllers
             /// </summary>
             /// 
             /// <returns>Returns a JSON object with a list of geo-comments</returns>
+            
             [HttpGet]
-            public async Task<ActionResult<IEnumerable<Models.V1.GeoMessageDTO>>> Get()
+            public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
             {       
-                return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
+                return await _context.GeoMessages.Select(m => 
+                    new GeoMessageDTO
+                    {
+                        Message = m.Body,
+                        Longitude = m.Longitude,
+                        Latitude = m.Latitude
+                    }
+                    ).ToListAsync();
             }
 
             [Authorize]
             // POST api/Geomessage
             [HttpPost]
-            public async Task<ActionResult<Models.V1.GeoMessageDTO>> PostGeoComment(Models.V1.GeoMessageDTO geoMessageDTO)
+            public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
             {
                 var geoMessage = geoMessageDTO.ToModel();
                 _context.GeoMessages.Add(geoMessage);
