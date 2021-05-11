@@ -42,7 +42,7 @@ namespace WebAPI_Project.Controllers
     { 
         [ApiController]
         [ApiVersion("1.0")]
-        [Route("api/v{version:apiVersion}/[controller]")]
+        [Route("api/v{version:apiVersion}/geo-comments")]
         public class GeoMessageController : ControllerBase
         {
             private readonly GeoMessageDbContext _context;
