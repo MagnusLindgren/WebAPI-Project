@@ -7,9 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebAPI_Project.Models;
 using WebAPI_Project.Models.V1;
-using WebAPI_Project.Models.v2;
-using GeoMessage = WebAPI_Project.Models.V1.GeoMessage;
-using GeoMessages = WebAPI_Project.Models.v2.GeoMessage;
+using WebAPI_Project.Models.V2;
+
 
 namespace WebAPI_Project.Data
 {
@@ -20,7 +19,8 @@ namespace WebAPI_Project.Data
 
         }
 
-        public DbSet<GeoMessage> GeoMessages { get; set; }
+        public DbSet<Models.V1.GeoMessage> GeoMessages { get; set; }
+        public DbSet<Models.V2.GeoMessage> GeoMessageV2 { get; set; }
         public DbSet<User> User { get; set; }
 
         public async Task Seed(UserManager<User> userManager)
@@ -36,7 +36,7 @@ namespace WebAPI_Project.Data
             };
             await userManager.CreateAsync(testUser, "Passw0rd!");
 
-            GeoMessage message = new GeoMessage()
+            Models.V1.GeoMessage message = new Models.V1.GeoMessage()
             {
                 Latitude = 57.69,
                 Longitude = 12.85,
@@ -44,12 +44,9 @@ namespace WebAPI_Project.Data
             };
             await AddAsync(message);
 
-            GeoMessages messagev2 = new GeoMessages()
+            Models.V2.GeoMessage messagev2 = new Models.V2.GeoMessage()
             {
-
-                Body = "hello",
-                Title = "Welcome",
-                Author = "testAuthor",
+                Message = { Body = "hello", Title = "Welcome", Author = "testAuthor" },
                 Longitude = 57.69,
                 Latitude = 12.85
             };
