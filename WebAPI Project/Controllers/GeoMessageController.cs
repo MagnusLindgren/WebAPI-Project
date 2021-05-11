@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using WebAPI_Project.Data;
 using WebAPI_Project.Models;
 using WebAPI_Project.Models.V1;
-using WebAPI_Project.Models.v2;
-using GeoMessageDTO = WebAPI_Project.Models.V1.GeoMessageDTO;
+using WebAPI_Project.Models.V2;
+//using GeoMessageDTO = WebAPI_Project.Models.V1.GeoMessageDTO;
 
 
 
@@ -23,13 +23,18 @@ namespace WebAPI_Project.Controllers
         
         public class GeoMessageController : ControllerBase
         {
-            // Testkod för att testa versionering
             private readonly GeoMessageDbContext _context;
             public GeoMessageController(GeoMessageDbContext context)
             {
                 _context = context;
             }
 
+            // GET api/Geomessage/{id}
+            /// <summary>
+            /// Gets a specific comment based on id
+            /// </summary>
+            /// <param name="id">id represents wich comment to get</param>
+            /// <returns>Returns a JSON object with a specific comment</returns>
             [HttpGet("{id}")]
             public async Task<ActionResult<Models.V2.GeoMessageDTO>> GetGeoComment(int id)
             {
@@ -65,7 +70,7 @@ namespace WebAPI_Project.Controllers
             /// <param name="id">id represents wich comment to get</param>
             /// <returns>Returns a JSON object with a specific comment</returns>
             [HttpGet("{id}")]
-            public async Task<ActionResult<GeoMessageDTO>> GetGeoComment(int id)
+            public async Task<ActionResult<Models.V1.GeoMessageDTO>> GetGeoComment(int id)
             {
                 var geoTag = await _context.GeoMessages.FindAsync(id);
 
@@ -83,7 +88,7 @@ namespace WebAPI_Project.Controllers
             /// 
             /// <returns>Returns a JSON object with a list of geo-comments</returns>
             [HttpGet]
-            public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
+            public async Task<ActionResult<IEnumerable<Models.V1.GeoMessageDTO>>> Get()
             {       
                 return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
             }
@@ -91,7 +96,7 @@ namespace WebAPI_Project.Controllers
             [Authorize]
             // POST api/Geomessage
             [HttpPost]
-            public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
+            public async Task<ActionResult<Models.V1.GeoMessageDTO>> PostGeoComment(Models.V1.GeoMessageDTO geoMessageDTO)
             {
                 var geoMessage = geoMessageDTO.ToModel();
                 _context.GeoMessages.Add(geoMessage);

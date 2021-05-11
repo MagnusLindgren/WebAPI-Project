@@ -4,6 +4,13 @@
         <name>WebAPI Project</name>
     </assembly>
     <members>
+        <member name="M:WebAPI_Project.Controllers.V2.GeoMessageController.GetGeoComment(System.Int32)">
+            <summary>
+            Gets a specific comment based on id
+            </summary>
+            <param name="id">id represents wich comment to get</param>
+            <returns>Returns a JSON object with a specific comment</returns>
+        </member>
         <member name="M:WebAPI_Project.Controllers.V1.GeoMessageController.GetGeoComment(System.Int32)">
             <summary>
             Gets a specific comment based on id
