@@ -36,16 +36,16 @@ namespace WebAPI_Project.Controllers
             /// <param name="id">id represents wich comment to get</param>
             /// <returns>Returns a JSON object with a specific comment</returns>
             [HttpGet("{id}")]
-            public async Task<ActionResult<Models.V2.GeoMessageDTO>> GetGeoComment(int id)
+            public async Task<ActionResult<GeoMessageV2DTO>> GetGeoComment(int id)
             {
-                var geoTag = await _context.GeoMessages.FindAsync(id);
+                var geoTagv1 = await _context.GeoMessages.FindAsync(id);
 
-                if (geoTag == null)
+                if (geoTagv1 == null)
                 {
                     return NoContent();
                 }
 
-                return Ok(geoTag.GeoMessDTO());
+                return Ok(geoTagv1.GeoMessDTO());
             }
         }
     }

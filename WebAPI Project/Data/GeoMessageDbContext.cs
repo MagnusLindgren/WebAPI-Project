@@ -19,8 +19,8 @@ namespace WebAPI_Project.Data
 
         }
 
-        public DbSet<Models.V1.GeoMessage> GeoMessages { get; set; }
-        public DbSet<Models.V2.GeoMessage> GeoMessageV2 { get; set; }
+        public DbSet<GeoMessage> GeoMessages { get; set; }
+        public DbSet<GeoMessageV2> GeoMessageV2 { get; set; }
         public DbSet<User> User { get; set; }
 
         public async Task Seed(UserManager<User> userManager)
@@ -36,18 +36,18 @@ namespace WebAPI_Project.Data
             };
             await userManager.CreateAsync(testUser, "Passw0rd!");
 
-            Models.V1.GeoMessage message = new Models.V1.GeoMessage()
+            GeoMessage message = new GeoMessage()
             {
                 Latitude = 57.69,
                 Longitude = 12.85,
                 Message = "This is a drill. Do not worry!"
             };
             await AddAsync(message);
-
-            Models.V2.GeoMessage messagev2 = new Models.V2.GeoMessage()
+            
+            GeoMessageV2 messagev2 = new GeoMessageV2()
             {
-                Message = { Body = "hello", Title = "Welcome", Author = "testAuthor" },
-                Longitude = 57.69,
+                Message = new Message { Body = "hello", Title = "Welcome", Author = "testAuthor" },
+                Longitude = 51.69,
                 Latitude = 12.85
             };
             await AddAsync(messagev2);
