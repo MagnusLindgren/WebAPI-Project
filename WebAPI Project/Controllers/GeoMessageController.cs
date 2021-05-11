@@ -30,10 +30,17 @@ namespace WebAPI_Project.Controllers
                 _context = context;
             }
 
-            [HttpGet]
-            public async Task<ActionResult<IEnumerable<Models.v2.GeoMessageDTO>>> Get()
+            [HttpGet("{id}")]
+            public async Task<ActionResult<Models.V2.GeoMessageDTO>> GetGeoComment(int id)
             {
-                return await _context.GeoMessage.Select(m => m.GeoMessDTO()).ToListAsync();
+                var geoTag = await _context.GeoMessages.FindAsync(id);
+
+                if (geoTag == null)
+                {
+                    return NoContent();
+                }
+
+                return Ok(geoTag.GeoMessDTO());
             }
         }
     }
@@ -64,7 +71,7 @@ namespace WebAPI_Project.Controllers
 
                 if (geoTag == null)
                 {
-                    return NoContent();
+                    return NotFound();
                 }
 
                 return Ok(geoTag.GeoMessDTO());
@@ -81,7 +88,7 @@ namespace WebAPI_Project.Controllers
                 return await _context.GeoMessages.Select(m => m.GeoMessDTO()).ToListAsync();
             }
 
-            //[Authorize]
+            [Authorize]
             // POST api/Geomessage
             [HttpPost]
             public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)

@@ -45,14 +45,14 @@ namespace WebAPI_Project
                 password = crendentials[1];
 
                 user = await _userManager.FindByNameAsync(username);
-
                 if (user == null ||
                     password == null ||
-                    _userManager.CheckPasswordAsync(user, password) == null)
+                    await _userManager.CheckPasswordAsync(user, password) == false)
 
                 {
-                    AuthenticateResult.Fail("Invalid username or password");
+                    return AuthenticateResult.Fail("Invalid username or password");
                 }
+
             }
             catch (Exception ex) 
             {
@@ -73,6 +73,8 @@ namespace WebAPI_Project
         }
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
+            Response.StatusCode = 401;
+
             Response.Headers["WWW-Authenticate"] = "Basic";
 
             return base.HandleChallengeAsync(properties);
