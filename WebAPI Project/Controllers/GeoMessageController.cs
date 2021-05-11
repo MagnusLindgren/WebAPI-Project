@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,7 +20,7 @@ namespace WebAPI_Project.Controllers
     {
         [ApiController]
         [ApiVersion("2.0")]
-        [Route("api/v{version:apiVersion}/[controller]")]
+        [Route("api/v{version:apiVersion}/geo-comments")]
         
         public class GeoMessageController : ControllerBase
         {
@@ -47,7 +48,7 @@ namespace WebAPI_Project.Controllers
 
                 var geoMessageDto = new GetMessageDTO
                 {
-                    Message = new MessageDTO { Title = geoTag.Title, Body = geoTag.Body, Author = geoTag.Body },
+                    Message = new MessageDTO { Title = geoTag.Title, Body = geoTag.Body, Author = geoTag.Author },
                     Latitude = geoTag.Latitude,
                     Longitude = geoTag.Longitude
                 };
@@ -65,9 +66,11 @@ namespace WebAPI_Project.Controllers
         public class GeoMessageController : ControllerBase
         {
             private readonly GeoMessageDbContext _context;
-            public GeoMessageController(GeoMessageDbContext context)
+            private readonly UserManager<User> _userManager;
+            public GeoMessageController(GeoMessageDbContext context, UserManager<User> userManager)
             {
                 _context = context;
+                _userManager = userManager;
             }
 
             // GET api/Geomessage/{id}
@@ -88,7 +91,7 @@ namespace WebAPI_Project.Controllers
 
             var geoMessageDto = new GeoMessageDTO
             {
-                Message = geoTag.Message,
+                Message = geoTag.Body,
                 Latitude = geoTag.Latitude,
                 Longitude = geoTag.Longitude
             };
@@ -120,7 +123,9 @@ namespace WebAPI_Project.Controllers
             [HttpPost]
             public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
             {
-                var geoMessage = geoMessageDTO.ToModel();
+                var user = await _userManager.GetUserAsync(this.User);
+
+                var geoMessage = geoMessageDTO.ToModel(user);
                 _context.GeoMessages.Add(geoMessage);
                 await _context.SaveChangesAsync();
 

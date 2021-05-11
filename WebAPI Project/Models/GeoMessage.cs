@@ -37,11 +37,12 @@ namespace WebAPI_Project.Models
             public double Longitude { get; set; }
             public double Latitude { get; set; }
 
-            public GeoMessage ToModel()
+            public GeoMessage ToModel(User user)
             {
                 return new GeoMessage
                 {
-                    Message = this.Message,
+                    Author = $"{user.FirstName} {user.LastName}",
+                    Body = this.Message,
                     Longitude = this.Longitude,
                     Latitude = this.Latitude,
                 };
