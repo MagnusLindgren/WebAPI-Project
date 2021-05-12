@@ -90,6 +90,8 @@ namespace WebAPI_Project
                 o.DefaultApiVersion = new ApiVersion(2, 0);
                 o.AssumeDefaultVersionWhenUnspecified = true;
                 o.ReportApiVersions = true;
+
+              
             });
 
             services.AddVersionedApiExplorer(o =>

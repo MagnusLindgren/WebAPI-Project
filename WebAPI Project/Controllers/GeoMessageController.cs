@@ -21,7 +21,7 @@ namespace WebAPI_Project.Controllers
         [ApiController]
         [ApiVersion("2.0")]
         [Route("api/v{version:apiVersion}/geo-comments")]
-        
+
         public class GeoMessageController : ControllerBase
         {
             private readonly GeoMessageDbContext _context;
@@ -58,7 +58,9 @@ namespace WebAPI_Project.Controllers
                 return Ok(geoMessageDto);
             }
 
-            [HttpGet]
+            /*
+             * 
+             * [HttpGet]
             public async Task<ActionResult<IEnumerable<GetMessageDTO>>> Get()
             {
                 return await _context.GeoMessages.Select(m =>
@@ -69,7 +71,77 @@ namespace WebAPI_Project.Controllers
                         Longitude = m.Longitude
                     }
                     ).ToListAsync();
+            }*/
+            /*
+            [Authorize]
+            // POST api/Geomessage
+            [HttpPost]
+            public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
+            {
+                var user = await _userManager.GetUserAsync(this.User);
+
+                var geoMessage = geoMessageDTO.ToModel(user);
+                _context.GeoMessages.Add(geoMessage);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetGeoComment", new { id = geoMessage.Id }, geoMessageDTO);
+            }*/
+
+
+            /// <summary>
+            /// 
+            /// Gets all geo-comments within a certain area of the earth. 
+            /// </summary>
+            /// <param name="minLon">Shows minimum longitude</param>
+            /// <param name="minLat">Shows minimum latitude</param>
+            /// <param name="maxLat">Shows maximum latitude</param>
+            /// <param name="maxLon">Shows maximum longitude</param>
+            /// <returns>Returns a list of all geo-comments within a certain area. </returns>
+            [HttpGet]
+            public async Task<ActionResult<IEnumerable<GetMessageDTO>>> Get(double? minLon, double? minLat, double? maxLat, double? maxLon )
+            {
+            
+                return await _context.GeoMessages.Select(m =>
+                    new GetMessageDTO
+                    {
+                        Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
+                        Latitude = m.Latitude,
+                        Longitude = m.Longitude
+                    })
+                    .Where(
+                        o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)
+                    ).ToListAsync();
+
+                /*
+                 * var List = await _context.GeoMessages
+                    .Where(
+                        o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)
+                    ).ToListAsync();
+
+                List<GetMessageDTO> ListMinMax = new List<GetMessageDTO>();
+                foreach (var item in Lista)
+                {
+                    GetMessageDTO GetMinMax = new GetMessageDTO()
+                    {
+                       Message = new MessageDTO
+                        {
+                            Title = item.Title,
+                            Body = item.Body,
+                            Author = item.Author
+                        },
+                        Latitude = item.Latitude,
+                        Longitude = item.Longitude
+                       
+                    };
+
+                    ListMinMax.Add(GetMinMax);
+                }
+
+
+                return ListMinMax;*/
             }
+
+
 
         }
     }

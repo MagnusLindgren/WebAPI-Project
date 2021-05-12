@@ -11,6 +11,17 @@
             <param name="id">id represents wich comment to get</param>
             <returns>Returns a JSON object with a specific comment</returns>
         </member>
+        <member name="M:WebAPI_Project.Controllers.V2.GeoMessageController.Get(System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            
+            Gets all geo-comments within a certain area of the earth. 
+            </summary>
+            <param name="minLon">Shows minimum longitude</param>
+            <param name="minLat">Shows minimum latitude</param>
+            <param name="maxLat">Shows maximum latitude</param>
+            <param name="maxLon">Shows maximum longitude</param>
+            <returns>Returns a list of all geo-comments within a certain area. </returns>
+        </member>
         <member name="M:WebAPI_Project.Controllers.V1.GeoMessageController.GetGeoComment(System.Int32)">
             <summary>
             Gets a specific comment based on id
