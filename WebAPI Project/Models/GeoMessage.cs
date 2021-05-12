@@ -22,23 +22,27 @@ namespace WebAPI_Project.Models
         }
         public class AddMessageDTO
         {
-            public string Title { get; set; }
-            public string Body { get; set; }
-            public string Author { get; set; }
+            public AddMessageMessageDto Message { get; set; }
             public double Longitude { get; set; }
             public double Latitude { get; set; }
             public GeoMessage ToModel(User user)
             {
                 return new GeoMessage
                 {
-                    Title = this.Title,
+                    Body = Message.Body,
                     Author = $"{user.FirstName} {user.LastName}",
-                    Body = this.Body,
+                    Title = Message.Title,
                     Longitude = this.Longitude,
                     Latitude = this.Latitude,
                 };
             }
         }
+        public class AddMessageMessageDto
+        {
+            public string Title { get; set; }
+            public string Body { get; set; }
+        }
+
     }
 
     namespace V1

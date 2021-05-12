@@ -104,11 +104,11 @@ namespace WebAPI_Project.Controllers
                   }
                   ).ToListAsync();
           }*/
-            /*
+            
             [Authorize]
             // POST api/Geomessage
             [HttpPost]
-            public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
+            public async Task<ActionResult<AddMessageDTO>> PostGeoComment(AddMessageDTO geoMessageDTO)
             {
                 var user = await _userManager.GetUserAsync(this.User);
 
@@ -117,7 +117,7 @@ namespace WebAPI_Project.Controllers
                 await _context.SaveChangesAsync();
 
                 return CreatedAtAction("GetGeoComment", new { id = geoMessage.Id }, geoMessageDTO);
-            }*/
+            }
 
 
             /// <summary>
@@ -182,8 +182,6 @@ namespace WebAPI_Project.Controllers
                 }
                 return check;
             }
-
-
         }
     }
 
