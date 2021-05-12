@@ -35,15 +35,16 @@ namespace WebAPI_Project.Data
                 LastName = "Userson",
             };
             await userManager.CreateAsync(testUser, "Passw0rd!");
-            /*
+            
             var message = new GeoMessage
             {
                 Latitude = 57.69,
                 Longitude = 12.85,
-                Body = "This is a drill. Do not worry!"
+                Body = "This is a drill. Do not worry!",
+                Author = "Test Userson"
             };
             await AddAsync(message);
-            */
+            
             var messagev2 = new GeoMessage
             {
                 Title = "Testtitle",

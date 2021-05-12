@@ -36,5 +36,12 @@
             
             <returns>Returns a JSON object with a list of geo-comments</returns>
         </member>
+        <member name="M:WebAPI_Project.Controllers.V1.GeoMessageController.PostGeoComment(WebAPI_Project.Models.V1.GeoMessageDTO)">
+            <summary>
+            Post a message to the specific location. Need to be logged in to post
+            </summary>
+            <param name="geoMessageDTO"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
