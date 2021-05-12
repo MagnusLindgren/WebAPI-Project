@@ -20,7 +20,7 @@ namespace WebAPI_Project.Models
             public string Body { get; set; }
             public string Author { get; set; }
         }
-        public class AddMessageDTO // Ok nu är det en testfas
+        public class AddMessageDTO
         {
             public string Title { get; set; }
             public string Body { get; set; }
@@ -56,15 +56,6 @@ namespace WebAPI_Project.Models
                     Title = this.Message.Split(new[] { '.' } ).FirstOrDefault(),
                     Author = $"{user.FirstName} {user.LastName}",
                     Body = this.Message,
-                    Longitude = this.Longitude,
-                    Latitude = this.Latitude,
-                };
-            }
-            public GeoMessageDTO GeoMessDTO() // Gammal metod som inte fungerar rätt
-            {
-                return new GeoMessageDTO
-                {
-                    Message = this.Message,
                     Longitude = this.Longitude,
                     Latitude = this.Latitude,
                 };
