@@ -21,7 +21,7 @@ namespace WebAPI_Project.Models
             public string Author { get; set; }
 
         }
-        public class AddMessageDTO
+        public class AddMessageDTO // Onödig tanke, skall tas bort
         {
             public string Title { get; set; }
             public string Body { get; set; }
@@ -57,7 +57,6 @@ namespace WebAPI_Project.Models
                 };
             }
         }
-
     }
         public class GeoMessage
         {

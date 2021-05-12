@@ -117,7 +117,11 @@ namespace WebAPI_Project.Controllers
                     }
                     ).ToListAsync();
             }
-
+            /// <summary>
+            /// Post a message to the specific location. Need to be logged in to post
+            /// </summary>
+            /// <param name="geoMessageDTO"></param>
+            /// <returns></returns>
             [Authorize]
             // POST api/Geomessage
             [HttpPost]
