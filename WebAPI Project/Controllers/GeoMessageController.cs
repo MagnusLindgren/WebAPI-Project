@@ -55,13 +55,15 @@ namespace WebAPI_Project.Controllers
                     Longitude = geoTag.Longitude
                 };
 
+                CheckTitle(geoMessageDto);
+
                 return Ok(geoMessageDto);
             }
 
             [HttpGet]
             public async Task<ActionResult<IEnumerable<GetMessageDTO>>> Get()
             {
-                return await _context.GeoMessages.Select(m =>
+                var geoTags = await _context.GeoMessages.Select(m =>
                     new GetMessageDTO
                     {
                         Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
@@ -69,8 +71,24 @@ namespace WebAPI_Project.Controllers
                         Longitude = m.Longitude
                     }
                     ).ToListAsync();
+
+                foreach (var item in geoTags)
+                {
+                    CheckTitle(item);
+                }
+
+                return geoTags;
             }
 
+            //Kollar om titel är null och lägger isåfall till titel från första meningen i body
+            static GetMessageDTO CheckTitle(GetMessageDTO check)
+            {
+                if (check.Message.Title == null)
+                {
+                    check.Message.Title = check.Message.Body.Split(new[] { '.' }).FirstOrDefault();
+                }
+                return check;
+            }
         }
     }
 

@@ -40,7 +40,8 @@ namespace WebAPI_Project.Data
             {
                 Latitude = 57.69,
                 Longitude = 12.85,
-                Body = "This is a drill. Do not worry!"
+                Body = "This is a drill. Do not worry!",
+                Author = "Test Userson"
             };
             await AddAsync(message);
             
