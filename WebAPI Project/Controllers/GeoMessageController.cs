@@ -71,23 +71,48 @@ namespace WebAPI_Project.Controllers
             [HttpGet]
             public async Task<ActionResult<IEnumerable<GetMessageDTO>>> Get(double? minLon, double? minLat, double? maxLat, double? maxLon)
             {
-                var geoTags = await _context.GeoMessages.Select(m =>
-                    new GetMessageDTO
-                    {
-                        Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
-                        Latitude = m.Latitude,
-                        Longitude = m.Longitude
-                    }
-                    ).Where(
-                        o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)
-                    ).ToListAsync();
-
-                foreach (var item in geoTags)
+                if (minLon == null || maxLon == null || minLat == null || maxLat == null)
                 {
-                    CheckTitle(item);
+                    var geoTags = await _context.GeoMessages.Select(m =>
+                        new GetMessageDTO
+                        {
+                            Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
+                            Latitude = m.Latitude,
+                            Longitude = m.Longitude
+                        }
+                        
+                        ).ToListAsync();
+
+                    foreach (var item in geoTags)
+                    {
+                        CheckTitle(item);
+                    }
+
+                    return geoTags;
+                }
+                else
+                {
+                    var geoTags = await _context.GeoMessages.Select(m =>
+                                    new GetMessageDTO
+                                    {
+                                        Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
+                                        Latitude = m.Latitude,
+                                        Longitude = m.Longitude
+                                    }
+                                    ).Where(
+                                        o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)
+                                    ).ToListAsync();
+                    foreach (var item in geoTags)
+                    {
+                        CheckTitle(item);
+                    }
+
+                    return geoTags;
+
+
                 }
 
-                return geoTags;
+              
             }
 
             /*
