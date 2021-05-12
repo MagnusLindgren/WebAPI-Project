@@ -42,7 +42,6 @@ namespace WebAPI_Project.Models
             public string Title { get; set; }
             public string Body { get; set; }
         }
-
     }
 
     namespace V1

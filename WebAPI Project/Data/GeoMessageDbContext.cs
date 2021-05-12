@@ -18,9 +18,7 @@ namespace WebAPI_Project.Data
         {
 
         }
-
         public DbSet<GeoMessage> GeoMessages { get; set; }
-        //public DbSet<GeoMessageV2> GeoMessageV2 { get; set; }
         public DbSet<User> User { get; set; }
 
         public async Task Seed(UserManager<User> userManager)

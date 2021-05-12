@@ -10,9 +10,6 @@ using WebAPI_Project.Data;
 using WebAPI_Project.Models;
 using WebAPI_Project.Models.V1;
 using WebAPI_Project.Models.V2;
-//using GeoMessageDTO = WebAPI_Project.Models.V1.GeoMessageDTO;
-
-
 
 namespace WebAPI_Project.Controllers
 {
@@ -87,51 +84,30 @@ namespace WebAPI_Project.Controllers
                     {
                         CheckTitle(item);
                     }
-
                     return geoTags;
                 }
                 else
                 {
                     var geoTags = await _context.GeoMessages.Select(m =>
-                                    new GetMessageDTO
-                                    {
-                                        Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
-                                        Latitude = m.Latitude,
-                                        Longitude = m.Longitude
-                                    }
-                                    ).Where(
-                                        o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)
-                                    ).ToListAsync();
+                        new GetMessageDTO
+                        {
+                            Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
+                            Latitude = m.Latitude,
+                            Longitude = m.Longitude
+                        }
+                        ).Where(o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)                                    
+                        ).ToListAsync();
+
                     foreach (var item in geoTags)
                     {
                         CheckTitle(item);
                     }
 
                     return geoTags;
-
-
                 }
-
-              
             }
-
-            /*
-           * 
-           * [HttpGet]
-          public async Task<ActionResult<IEnumerable<GetMessageDTO>>> Get()
-          {
-              return await _context.GeoMessages.Select(m =>
-                  new GetMessageDTO
-                  {
-                      Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
-                      Latitude = m.Latitude,
-                      Longitude = m.Longitude
-                  }
-                  ).ToListAsync();
-          }*/
             
-            [Authorize]
-            // POST api/Geomessage
+            [Authorize]           
             [HttpPost]
             public async Task<ActionResult<AddMessageDTO>> PostGeoComment(AddMessageDTO geoMessageDTO)
             {
@@ -142,61 +118,7 @@ namespace WebAPI_Project.Controllers
                 await _context.SaveChangesAsync();
 
                 return CreatedAtAction("GetGeoComment", new { id = geoMessage.Id }, geoMessageDTO);
-            }
-
-
-            /// <summary>
-            /// 
-            /// Gets all geo-comments within a certain area of the earth. 
-            /// </summary>
-            /// <param name="minLon">Shows minimum longitude</param>
-            /// <param name="minLat">Shows minimum latitude</param>
-            /// <param name="maxLat">Shows maximum latitude</param>
-            /// <param name="maxLon">Shows maximum longitude</param>
-            /// <returns>Returns a list of all geo-comments within a certain area. </returns>
-            /*[HttpGet]
-            public async Task<ActionResult<IEnumerable<GetMessageDTO>>> Get(double? minLon, double? minLat, double? maxLat, double? maxLon)
-            {
-
-                return await _context.GeoMessages.Select(m =>
-                    new GetMessageDTO
-                    {
-                        Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
-                        Latitude = m.Latitude,
-                        Longitude = m.Longitude
-                    })
-                    .Where(
-                        o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)
-                    ).ToListAsync();*/
-
-                /*
-                 * var List = await _context.GeoMessages
-                    .Where(
-                        o => (o.Longitude <= maxLon && o.Longitude >= minLon) && (o.Latitude <= maxLat && o.Latitude >= minLat)
-                    ).ToListAsync();
-
-                List<GetMessageDTO> ListMinMax = new List<GetMessageDTO>();
-                foreach (var item in Lista)
-                {
-                    GetMessageDTO GetMinMax = new GetMessageDTO()
-                    {
-                       Message = new MessageDTO
-                        {
-                            Title = item.Title,
-                            Body = item.Body,
-                            Author = item.Author
-                        },
-                        Latitude = item.Latitude,
-                        Longitude = item.Longitude
-                       
-                    };
-
-                    ListMinMax.Add(GetMinMax);
-                }
-
-
-                return ListMinMax;*/
-        
+            }       
 
         //Kollar om titel är null och lägger isåfall till titel från första meningen i body
         static GetMessageDTO CheckTitle(GetMessageDTO check)
@@ -250,13 +172,12 @@ namespace WebAPI_Project.Controllers
 
                 return Ok(geoMessageDto);
             }
-            // GET api/Geomessage
+
             /// <summary>
             /// Gets a list of geo-comments
             /// </summary>
             /// 
-            /// <returns>Returns a JSON object with a list of geo-comments</returns>
-            
+            /// <returns>Returns a JSON object with a list of geo-comments</returns>            
             [HttpGet]
             public async Task<ActionResult<IEnumerable<GeoMessageDTO>>> Get()
             {       
@@ -269,13 +190,13 @@ namespace WebAPI_Project.Controllers
                     }
                     ).ToListAsync();
             }
+
             /// <summary>
             /// Post a message to the specific location. Need to be logged in to post
             /// </summary>
             /// <param name="geoMessageDTO"></param>
             /// <returns></returns>
             [Authorize]
-            // POST api/Geomessage
             [HttpPost]
             public async Task<ActionResult<GeoMessageDTO>> PostGeoComment(GeoMessageDTO geoMessageDTO)
             {

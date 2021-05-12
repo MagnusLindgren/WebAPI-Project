@@ -36,7 +36,6 @@ namespace WebAPI_Project
                     logger.LogError(ex, "An error occurred in the creation of the Database!");
                 }
             }
-
                 host.Run();
         }
 

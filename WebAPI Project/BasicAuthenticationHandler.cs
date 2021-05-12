@@ -52,7 +52,6 @@ namespace WebAPI_Project
                 {
                     return AuthenticateResult.Fail("Invalid username or password");
                 }
-
             }
             catch (Exception ex) 
             {
@@ -79,7 +78,6 @@ namespace WebAPI_Project
 
             return base.HandleChallengeAsync(properties);
         }
-
     }
 }
 

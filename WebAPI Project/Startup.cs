@@ -70,7 +70,8 @@ namespace WebAPI_Project
                     Description = "Basic Authorization header."
                 });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement        {
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
                     {
                         new OpenApiSecurityScheme
                                  {
@@ -107,8 +108,7 @@ namespace WebAPI_Project
                 .AddEntityFrameworkStores<GeoMessageDbContext>();
 
             services.AddAuthentication("BasicAuthentication")
-                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-    
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
