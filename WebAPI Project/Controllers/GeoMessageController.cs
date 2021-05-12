@@ -25,9 +25,11 @@ namespace WebAPI_Project.Controllers
         public class GeoMessageController : ControllerBase
         {
             private readonly GeoMessageDbContext _context;
-            public GeoMessageController(GeoMessageDbContext context)
+            private readonly UserManager<User> _userManager;
+            public GeoMessageController(GeoMessageDbContext context, UserManager<User> userManager)
             {
                 _context = context;
+                _userManager = userManager;
             }
 
             // GET api/Geomessage/{id}
@@ -55,6 +57,20 @@ namespace WebAPI_Project.Controllers
 
                 return Ok(geoMessageDto);
             }
+
+            [HttpGet]
+            public async Task<ActionResult<IEnumerable<GetMessageDTO>>> Get()
+            {
+                return await _context.GeoMessages.Select(m =>
+                    new GetMessageDTO
+                    {
+                        Message = new MessageDTO { Title = m.Title, Body = m.Body, Author = m.Author },
+                        Latitude = m.Latitude,
+                        Longitude = m.Longitude
+                    }
+                    ).ToListAsync();
+            }
+
         }
     }
 
